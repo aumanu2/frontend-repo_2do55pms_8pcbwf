@@ -1,28 +1,39 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Projects from './components/Projects';
+import About from './components/About';
+import Contact from './components/Contact';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = saved || (prefersDark ? 'dark' : 'light');
+    setTheme(initial);
+  }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 selection:bg-fuchsia-500/20 selection:text-fuchsia-500">
+      <Header theme={theme} onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))} />
+      <main>
+        <Hero />
+        <Projects />
+        <About />
+        <Contact />
+      </main>
     </div>
-  )
+  );
 }
-
-export default App
