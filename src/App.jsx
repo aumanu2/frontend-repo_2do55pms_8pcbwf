@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
 import About from './components/About';
+import ThreeShowcase from './components/ThreeShowcase';
 import Contact from './components/Contact';
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
         <Hero />
         <Projects />
         <About />
+        <ThreeShowcase />
         <Contact />
       </main>
     </div>
